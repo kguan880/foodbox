@@ -19,6 +19,7 @@ export default function Nav() {
                     <div className="line"></div>
                 </div>
             </nav>
+            
         </>
     )
 }
