@@ -1,13 +1,29 @@
+const { generateHash } = require('authenticare/server')
 
-exports.seed = function(knex) {
+exports.seed = function (knex) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('users').del()
     .then(function () {
       // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
-      ]);
-    });
-};
+      return Promise.all(
+        [
+          {
+            id: 1,
+            name: 'Richard Guan',
+            username: 'KG',
+            email: 'kg@gmail.com',
+            password: 'help'
+          }
+        ].map(user => {
+          return generateHash(user.password)
+            .then(hash => {
+              user.hash = hash
+              delete user.password
+              return user
+            })
+        }))
+        .then(users => {
+          return knex('users').insert(users)
+        })
+    })
+}
