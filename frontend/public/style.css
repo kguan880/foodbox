@@ -5,6 +5,9 @@
     font-family: 'Poppins';
 }
 
+.container {
+    max-width: 80vw;
+}
 nav {
     display:flex;
     justify-content: space-around;
